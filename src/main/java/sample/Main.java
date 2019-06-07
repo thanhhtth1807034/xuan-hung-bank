@@ -1,23 +1,26 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import stage.DepositStage;
-import stage.LoginStage;
-import stage.RegisterStage;
-import stage.WithdrawStage;
+import stage.*;
+
+import javax.swing.*;
 
 public class Main extends Application {
 
@@ -29,15 +32,21 @@ public class Main extends Application {
     private HBox hBox;
     private VBox categoryBox;
 
+    private GridPane gridPaneContent;
+    private Label lblAcount;
+    private Label lblBalance;
+    private Label lblAccountName;
+    private Label lblBalanceValue;
     private Label lblTitle;
     private Label lblhome;
     private Label lblLogin;
     private Label lblRegister;
     private Label lblWithdraw;
     private Label lblDeposit;
-    private Label lblBalanceValue;
-    private Label lblAccountName;
+    private HBox btnBox;
 
+
+    private Pane pane;
     private Scene scene;
     private Stage stage;
     private LoginStage loginStage;
@@ -45,11 +54,17 @@ public class Main extends Application {
     private WithdrawStage withdrawStage;
     private DepositStage depositStage;
 
+
     private Main main;
     private int accountBalance;
 
+    private static boolean isLoggedIn = false;
+    private Button btnWithdraw;
+    private Button btnDeposit;
+    private AccountStage accountStage;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 //        primaryStage.setTitle("Hello World");
 //        primaryStage.setScene(new Scene(root, 300, 275));
@@ -58,26 +73,55 @@ public class Main extends Application {
         this.stage = primaryStage;
         initComponent();
 
+
+        if (isLoggedIn) {
+            // show stage.
+            this.stage.show();
+
+        } else {
+            this.accountStage = new AccountStage(this);
+            this.accountStage.show();
+
+        }
+
         this.scene = new Scene(this.vBox, 500, 200);
         this.stage.setScene(this.scene);
-        this.stage.show();
+
     }
 
+
     private void initComponent() {
+        this.vBox = new VBox();
+
         this.titleBox = new HBox();
         this.lblTitle = new Label("Spring Hero Bank");
         this.lblTitle.setFont(Font.font(18));
         this.lblTitle.setTextFill(Color.web("#ff0cb4"));
         this.titleBox.getChildren().add(lblTitle);
-//        this.titleBox.setPadding(new Insets(-50,0,0,0));
         this.titleBox.setAlignment(Pos.TOP_LEFT);
+        this.titleBox.setSpacing(10);
 
-        this.hBox = new HBox();
-        this.lblhome = new Label("Welcome To Spring Hero Bank");
-        this.hBox.setAlignment(Pos.CENTER_RIGHT);
-        this.hBox.setSpacing(5);
-        this.hBox.setPadding(new Insets(0,40,0,0));
-        this.hBox.getChildren().add(lblhome);
+        this.gridPaneContent = new GridPane();
+        this.lblAcount = new Label("Account:");
+        this.lblBalance = new Label("Balance:");
+        this.lblAccountName = new Label(this.accountName);
+        this.lblBalanceValue = new Label(String.valueOf(this.accountBalance));
+        this.gridPaneContent.add(this.lblAcount, 0, 0);
+        this.gridPaneContent.add(this.lblAccountName, 1, 0);
+        this.gridPaneContent.add(this.lblBalance, 0, 1);
+        this.gridPaneContent.add(this.lblBalanceValue, 1, 1);
+        this.gridPaneContent.setAlignment(Pos.CENTER);
+        this.gridPaneContent.setPadding(new Insets(10));
+        this.gridPaneContent.setVgap(10);
+        this.gridPaneContent.setHgap(10);
+        this.btnBox = new HBox();
+        this.btnWithdraw = new Button("Withdraw");
+        this.btnDeposit = new Button("Deposit");
+        this.btnBox.getChildren().addAll(this.btnWithdraw, this.btnDeposit);
+        this.btnBox.setAlignment(Pos.CENTER);
+        this.btnBox.setSpacing(10);
+        this.gridPaneContent.add(btnBox, 1, 2);
+
 
         this.categoryBox = new VBox();
         this.lblLogin = new Label("Login");
@@ -92,18 +136,35 @@ public class Main extends Application {
         this.mainBox = new VBox();
         this.mainBox.setPadding(new Insets(0));
         this.mainBox.setAlignment(Pos.CENTER);
-        this.mainBox.getChildren().addAll(this.hBox, this.categoryBox);
-        this.vBox = new VBox();
-        this.vBox.getChildren().addAll(this.titleBox,this.mainBox);
+        this.mainBox.getChildren().addAll(this.gridPaneContent, this.categoryBox);
+
+        this.vBox.getChildren().addAll(this.titleBox, this.mainBox);
         this.vBox.setAlignment(Pos.CENTER);
-        this.vBox.setSpacing(20);
-        this.vBox.setPadding(new Insets(10));
+        this.vBox.setSpacing(30);
+        this.vBox.setPadding(new Insets(10, 10, 10, 10));
+
+
+        this.withdrawStage = new WithdrawStage(main);
+        this.depositStage = new DepositStage(main);
+
+        btnDeposit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                depositStage.showAndWait();
+            }
+        });
+
+        btnWithdraw.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                withdrawStage.showAndWait();
+            }
+        });
 
         this.loginStage = new LoginStage(main);
         this.registerStage = new RegisterStage(main);
         this.withdrawStage = new WithdrawStage(main);
         this.depositStage = new DepositStage(main);
-
         lblLogin.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -131,12 +192,14 @@ public class Main extends Application {
                 depositStage.show();
             }
         });
-    }
 
+
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
+
 
     public VBox getvBox() {
         return vBox;
@@ -294,6 +357,54 @@ public class Main extends Application {
         return lblBalanceValue;
     }
 
+    public GridPane getGridPaneContent() {
+        return gridPaneContent;
+    }
+
+    public void setGridPaneContent(GridPane gridPaneContent) {
+        this.gridPaneContent = gridPaneContent;
+    }
+
+    public Label getLblAcount() {
+        return lblAcount;
+    }
+
+    public void setLblAcount(Label lblAcount) {
+        this.lblAcount = lblAcount;
+    }
+
+    public Label getLblBalance() {
+        return lblBalance;
+    }
+
+    public void setLblBalance(Label lblBalance) {
+        this.lblBalance = lblBalance;
+    }
+
+    public HBox getBtnBox() {
+        return btnBox;
+    }
+
+    public void setBtnBox(HBox btnBox) {
+        this.btnBox = btnBox;
+    }
+
+    public Button getBtnWithdraw() {
+        return btnWithdraw;
+    }
+
+    public void setBtnWithdraw(Button btnWithdraw) {
+        this.btnWithdraw = btnWithdraw;
+    }
+
+    public Button getBtnDeposit() {
+        return btnDeposit;
+    }
+
+    public void setBtnDeposit(Button btnDeposit) {
+        this.btnDeposit = btnDeposit;
+    }
+
     public void setLblBalanceValue(Label lblBalanceValue) {
         this.lblBalanceValue = lblBalanceValue;
     }
@@ -312,5 +423,21 @@ public class Main extends Application {
 
     public void setLblAccountName(Label lblAccountName) {
         this.lblAccountName = lblAccountName;
+    }
+
+    public Pane getPane() {
+        return pane;
+    }
+
+    public void setPane(Pane pane) {
+        this.pane = pane;
+    }
+
+    public static boolean isIsLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public static void setIsLoggedIn(boolean isLoggedIn) {
+        Main.isLoggedIn = isLoggedIn;
     }
 }

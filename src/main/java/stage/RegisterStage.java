@@ -135,21 +135,20 @@ public class RegisterStage extends Stage {
                         Integer.parseInt(txtBalance.getText())
                 );
 
-                if (txtUsername.getText().isEmpty()){
+                if (txtUsername.getText().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Please enter Username");
-                } else if (pwdPassword.getText().isEmpty()){
-                    showAlert(Alert.AlertType.ERROR,"Please enter Password");
-                } else if (pwdConfirmPassword.getText().isEmpty()){
-                    showAlert(Alert.AlertType.ERROR,"Please enter Confirm Password");
-                } else if (txtEmail.getText().isEmpty()){
-                    showAlert(Alert.AlertType.ERROR,"Please enter email");
-                } else if (txtPhone.getText().isEmpty()){
-                    showAlert(Alert.AlertType.ERROR,"Please enter phone");
-                } else if (txtAddress.getText().isEmpty()){
-                    showAlert(Alert.AlertType.ERROR,"Please enter address");
-                }
-                else if (Integer.parseInt(txtBalance.getText()) < 50000){
-                    showAlert(Alert.AlertType.ERROR,"Please enter Balance greater than 50000");
+                } else if (pwdPassword.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter Password");
+                } else if (pwdConfirmPassword.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter Confirm Password");
+                } else if (txtEmail.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter email");
+                } else if (txtPhone.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter phone");
+                } else if (txtAddress.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter address");
+                } else if (Integer.parseInt(txtBalance.getText()) < 50000) {
+                    showAlert(Alert.AlertType.ERROR, "Please enter Balance greater than 50000");
                 }
                 registerController.create(registerAccount);
 //                main.setIsRegistered(true);
@@ -179,6 +178,7 @@ public class RegisterStage extends Stage {
         });
 
     }
+
     private void showAlert(Alert.AlertType alertType, String message) {
         Alert alert = new Alert(alertType);
 

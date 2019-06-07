@@ -1,6 +1,7 @@
 package stage;
 
 //import entity.Account;
+
 import entity.Account;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,6 +52,7 @@ public class LoginStage extends Stage {
         this.stage.setScene(this.scene);
     }
 
+
     public void initComponent() {
         this.titleBox = new HBox();
         this.titleBox.setAlignment(Pos.TOP_LEFT);
@@ -72,7 +74,6 @@ public class LoginStage extends Stage {
         this.btnReset = new Button("Reset");
         this.btnSignUp = new Button("Sign Up");
 
-
         this.btnLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -82,7 +83,7 @@ public class LoginStage extends Stage {
                     main.setAccountBalance(account.getBalance());
                     main.getLblAccountName().setText(account.getUsername());
                     main.getLblBalanceValue().setText(String.valueOf(account.getBalance()));
-//                    main.setIsLoggedIn(true);
+                    main.setIsLoggedIn(true);
                     main.getStage().show();
                     stage.close();
                 } else if (txtAccount.getText().isEmpty()) {
@@ -267,7 +268,7 @@ public class LoginStage extends Stage {
         this.main = main;
     }
 
-        public AccountModel getModel() {
+    public AccountModel getModel() {
         return model;
     }
 

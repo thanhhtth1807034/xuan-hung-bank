@@ -33,6 +33,7 @@ public class DepositStage extends Stage {
     private Button btnSubmit;
     private Button btnClose;
 
+
     private Scene scene;
 
 
@@ -206,4 +207,5 @@ public class DepositStage extends Stage {
     public void setAccountBalance(int accountBalance) {
         this.accountBalance = accountBalance;
     }
+
 }

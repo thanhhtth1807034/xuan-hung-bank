@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,8 @@ public class LoginStage extends Stage {
     private Button btnSignUp;
 
     private RegisterStage registerStage;
+    private BorderPane borderPane;
+    private Scene newScene;
     private Scene scene;
     private Stage stage;
     private Main main;
@@ -50,6 +53,9 @@ public class LoginStage extends Stage {
         this.scene = new Scene(this.vBox, LOGIN_STAGE_WIDTH, LOGIN_STAGE_HEIGHT);
         this.stage = this;
         this.stage.setScene(this.scene);
+
+        this.borderPane = new BorderPane();
+        this.newScene = new Scene(this.borderPane, 200,100);
     }
 
 
@@ -93,7 +99,8 @@ public class LoginStage extends Stage {
                     showAlert(Alert.AlertType.ERROR, "Please enter password");
                     return;
                 }
-
+                txtAccount.clear();
+                pwdPassword.clear();
             }
         });
         this.btnReset.setOnAction(new EventHandler<ActionEvent>() {

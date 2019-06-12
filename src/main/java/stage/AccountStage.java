@@ -9,11 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.AccountModel;
@@ -47,14 +45,18 @@ public class AccountStage extends Stage {
     private Label lblDeposit;
 
     private Scene scene;
+    private Scene newScene;
     private Stage stage;
+    private BorderPane borderPane;
     private WithdrawStage withdrawStage;
     private DepositStage depositStage;
     private LoginStage loginStage;
     private RegisterStage registerStage;
     private AccountModel model;
     private AccountStage accountStage;
-    private Main main;//luư địa chỉ bộ nhớ
+    private Main main;//luư địa chỉ bộ nhớ\
+
+    private SVGPath logoSVG;
 
     private static boolean isLoggedIn = false;
     private static boolean isRegistered = false;
@@ -250,16 +252,16 @@ public class AccountStage extends Stage {
 
     private void initComponent() {
         this.titleBox = new HBox();
-        this.lblTitle = new Label("Spring Hero Bank");
-        this.lblTitle.setFont(Font.font(18));
-        this.lblTitle.setTextFill(Color.web("#ff0cb4"));
-        this.titleBox.getChildren().add(lblTitle);
-//        this.titleBox.setPadding(new Insets(-50,0,0,0));
-        this.titleBox.setAlignment(Pos.TOP_LEFT);
-
+        this.logoSVG = new SVGPath();
+        this.logoSVG.setFill(Color.rgb(25, 250, 250, 0.9));
+        this.logoSVG.setContent("m90.906 90.533h6.321v1.049.9 1.138.001.002c0 .401.155.763.403 1.04.02.023.037.049.059.071.009.009.021.016.031.025.282.269.662.436 1.082.436h.002.083v30.273h-.085c-.87 0-1.575.705-1.575 1.575v.614.9.149h-1.403c-1.305 0-2.362 1.058-2.362 2.362v1.735.002c0 1.086.88 1.966 1.966 1.966h.002 65.142.002c1.086 0 1.966-.88 1.966-1.966 0-.001 0-.002 0-.002v-1.735c0-1.305-1.058-2.362-2.362-2.362h-1.403v-1.049-.614c0-.87-.705-1.575-1.575-1.575h-.085v-30.273h.083.001.002c.411 0 .781-.161 1.062-.418.016-.015.036-.027.052-.043.012-.012.022-.028.034-.041.263-.281.428-.656.428-1.071v-1.14.001-.001-.9-1.049h6.321c1.086 0 1.966-.88 1.966-1.966 0-.165-.027-.323-.065-.477-.003-.011-.002-.023-.005-.034-.001.003-.002.006-.003.009-.223-.841-.982-1.464-1.893-1.464h-2.555l-33.408-34.253c-.619-.635-1.642-.635-2.261 0l-33.413 34.254h-2.555c-.911 0-1.67.623-1.893 1.464-.001-.003-.002-.006-.003-.009-.003.011-.002.023-.005.034-.039.153-.065.311-.065.477 0 1.085.88 1.965 1.966 1.965zm20.521 38.023v-.9-.614c0-.87-.705-1.575-1.575-1.575h-.085v-30.272h.083.002c.42 0 .8-.167 1.083-.436.01-.009.021-.016.031-.025.02-.02.035-.043.053-.064.251-.279.409-.643.409-1.048v-.002-1.138-.9-1.049h9.472v1.049.9 1.138.002c0 .404.157.769.409 1.048.019.021.034.044.053.064.008.008.019.014.027.023.283.27.664.438 1.086.438h.002.001.082v30.273h-.085c-.87 0-1.575.705-1.575 1.575v.614.9.149h-9.472v-.15zm33.146-34.937v.002c0 .404.157.769.409 1.048.019.021.034.044.053.064.008.008.019.014.027.023.283.27.664.438 1.086.438h.002.001.083v30.273h-.085c-.87 0-1.575.705-1.575 1.575v.614.9.149h-9.474v-.149-.9-.614c0-.87-.705-1.575-1.575-1.575h-.085v-30.272h.083.002c.42 0 .8-.167 1.083-.436.01-.009.021-.016.031-.025.02-.02.035-.043.053-.064.251-.279.409-.643.409-1.048v-.002-1.138-.9-1.049h9.472v1.049.9z");
+        this.titleBox.getChildren().add(logoSVG);
+        this.titleBox.setAlignment(Pos.CENTER);
 
         this.hBox = new HBox();
-//    this.pane = new Pane();
+//        this.borderPane = new BorderPane();
+//        this.newScene = new Scene(this.borderPane, 200,100);
+
         this.lblhome = new Label("Welcome To Spring Hero Bank");
         this.hBox.setAlignment(Pos.CENTER_RIGHT);
         this.hBox.setSpacing(5);
@@ -269,8 +271,6 @@ public class AccountStage extends Stage {
         this.categoryBox = new VBox();
         this.lblLogin = new Label("Login");
         this.lblRegister = new Label("Register");
-//        this.lblWithdraw = new Label("Withdraw");
-//        this.lblDeposit = new Label("Deposit");
         this.categoryBox.setAlignment(Pos.TOP_LEFT);
         this.categoryBox.setSpacing(10);
         this.categoryBox.setPadding(new Insets(-20, 0, 0, 10));
@@ -293,6 +293,7 @@ public class AccountStage extends Stage {
         lblLogin.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+//                main.setScene(newScene);
                 loginStage.show();
             }
         });

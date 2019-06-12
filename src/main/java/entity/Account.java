@@ -2,6 +2,7 @@ package entity;
 
 public class Account {
 
+    private int userID;
     private String username;
     private String password;
     private String confirmPassword;
@@ -14,7 +15,8 @@ public class Account {
     public Account() {
     }
 
-    public Account(String username, String password, String confirmPassword, String email, String phone, String address, int balance) {
+    public Account(int userID, String username, String password, String confirmPassword, String email, String phone, String address, int balance) {
+        this.userID = userID;
         this.username = username;
         this.password = password;
         this.confirmPassword = confirmPassword;
@@ -22,7 +24,14 @@ public class Account {
         this.phone = phone;
         this.address = address;
         this.balance = balance;
+    }
 
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getConfirmPassword() {
